@@ -2,55 +2,176 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Test</title>
+<title>VOAWW Dashboard V2</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:40px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin:10px 0;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+.value{
+    font-size:32px;
+    font-weight:bold;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<h1>Dashboard Test</h1>
+<h1>VOAWW Dashboard V2</h1>
 
-<div id="status">Starting...</div>
+<select id="monthSelector"></select>
 
-<pre id="output"></pre>
+<div class="card">
+    <h3>Total Calls</h3>
+    <div id="totalCalls" class="value"></div>
+</div>
+
+<div class="card">
+    <h3>Answered Calls</h3>
+    <div id="answeredCalls" class="value"></div>
+</div>
+
+<div class="card">
+    <h3>Missed Calls</h3>
+    <div id="missedCalls" class="value"></div>
+</div>
+
+<div class="card">
+    <h3>Warm Transfers</h3>
+    <div id="warmTransfers" class="value"></div>
+</div>
+
+<div class="card">
+    <h3>Cold Transfers</h3>
+    <div id="coldTransfers" class="value"></div>
+</div>
+
+<div class="card">
+    <h3>Average Call Duration</h3>
+    <div id="averageCallDuration" class="value"></div>
+</div>
+
+<div id="status"></div>
 
 <script>
 
-async function test() {
+let monthlyData = [];
 
-  try {
+async function loadDashboard() {
 
     const response =
-      await fetch('/data/monthlyData.json');
+        await fetch('/data/monthlyData.json');
 
-    const data =
-      await response.json();
-
-    document.getElementById(
-      'status'
-    ).innerText =
-      'SUCCESS';
+    monthlyData =
+        await response.json();
 
     document.getElementById(
-      'output'
+        'status'
     ).innerText =
-      JSON.stringify(
-        data,
-        null,
-        2
-      );
+        'Loaded ' +
+        monthlyData.length +
+        ' months';
 
-  }
-  catch(error) {
+    const selector =
+        document.getElementById(
+            'monthSelector'
+        );
 
-    document.getElementById(
-      'status'
-    ).innerText =
-      error.toString();
+    selector.innerHTML = '';
 
-  }
+    monthlyData.forEach((month,index)=>{
+
+        const option =
+            document.createElement(
+                'option'
+            );
+
+        option.value = index;
+
+        option.text =
+            month.month;
+
+        selector.appendChild(
+            option
+        );
+
+    });
+
+    selector.value =
+        monthlyData.length - 1;
+
+    selector.addEventListener(
+        'change',
+        function(){
+
+            showMonth(
+                monthlyData[
+                    Number(
+                        this.value
+                    )
+                ]
+            );
+
+        }
+    );
+
+    showMonth(
+        monthlyData[
+            monthlyData.length - 1
+        ]
+    );
 
 }
 
-test();
+function showMonth(month){
+
+    document.getElementById(
+        'totalCalls'
+    ).innerText =
+        month.totalCalls;
+
+    document.getElementById(
+        'answeredCalls'
+    ).innerText =
+        month.answeredCalls;
+
+    document.getElementById(
+        'missedCalls'
+    ).innerText =
+        month.missedCalls;
+
+    document.getElementById(
+        'warmTransfers'
+    ).innerText =
+        month.warmTransfers;
+
+    document.getElementById(
+        'coldTransfers'
+    ).innerText =
+        month.coldTransfers;
+
+    document.getElementById(
+        'averageCallDuration'
+    ).innerText =
+        month.averageCallDuration;
+
+}
+
+loadDashboard();
 
 </script>
 
