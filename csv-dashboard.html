@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
-<title>VOAWW CSV Dashboard</title>
+<title>VOAWW CSV Dashboard V2.2b</title>
 
 <style>
 
 body{
     font-family:Arial,sans-serif;
-    background:#f5f5f5;
     margin:40px;
+    background:#f5f5f5;
 }
 
-h1{
-    margin-bottom:20px;
-}
-
-select,
-input{
+input,select{
     padding:10px;
     margin:10px 0;
-    font-size:16px;
 }
 
 .cards{
@@ -46,16 +39,30 @@ input{
 .value{
     font-size:36px;
     font-weight:bold;
-    margin-top:10px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:30px;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:left;
+}
+
+th{
+    background:#f0f0f0;
 }
 
 #status{
     margin-top:20px;
-    color:#666;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -63,46 +70,26 @@ input{
 <h1>VOAWW CSV Dashboard V2.2b</h1>
 
 <input
-    type="file"
-    id="fileInput"
-    accept=".csv">
+type="file"
+id="fileInput"
+accept=".csv">
 
 <br>
 
 <select id="skillSelector">
-    <option>Upload CSV First</option>
+<option>Upload CSV First</option>
 </select>
 
 <div class="cards">
 
 <div class="card">
-<div class="label">Total Calls</div>
+<div class="label">Total Records</div>
 <div id="totalCalls" class="value">-</div>
 </div>
 
 <div class="card">
-<div class="label">Answered Calls</div>
-<div id="answeredCalls" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Missed Calls</div>
-<div id="missedCalls" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Warm Transfers</div>
-<div id="warmTransfers" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Cold Transfers</div>
-<div id="coldTransfers" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Average Duration</div>
-<div id="avgDuration" class="value">-</div>
+<div class="label">Skill Name</div>
+<div id="selectedSkill" class="value">-</div>
 </div>
 
 </div>
@@ -111,28 +98,7 @@ input{
 Waiting for file...
 </div>
 
-<script>
+<h2>Sample Records</h2>
 
-let headers = [];
-let rows = [];
 
-document
-.getElementById("fileInput")
-.addEventListener(
-    "change",
-    loadCsv
-);
-
-document
-.getElementById("skillSelector")
-.addEventListener(
-    "change",
-    function(){
-
-        calculateMetrics(
-            this.value
-        );
-
-    }
-);
-
+    
