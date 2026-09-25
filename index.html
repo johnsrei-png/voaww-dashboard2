@@ -40,30 +40,12 @@ select{
 
 .label{
     color:#666;
-    margin-bottom:10px;
 }
 
 .value{
     font-size:36px;
     font-weight:bold;
-}
-
-.trend{
-    margin-top:8px;
-    font-weight:bold;
-    font-size:16px;
-}
-
-.up{
-    color:green;
-}
-
-.down{
-    color:red;
-}
-
-.flat{
-    color:#666;
+    margin-top:10px;
 }
 
 #status{
@@ -73,117 +55,3 @@ select{
 
 </style>
 
-</head>
-
-<body>
-
-<h1>VOAWW Dashboard V2</h1>
-
-<select id="monthSelector"></select>
-
-<div class="cards">
-
-<div class="card">
-    <div class="label">Total Calls</div>
-    <div id="totalCalls" class="value">-</div>
-    <div id="totalCallsTrend" class="trend"></div>
-</div>
-
-<div class="card">
-    <div class="label">Answered Calls</div>
-    <div id="answeredCalls" class="value">-</div>
-    <div id="answeredCallsTrend" class="trend"></div>
-</div>
-
-<div class="card">
-    <div class="label">Missed Calls</div>
-    <div id="missedCalls" class="value">-</div>
-    <div id="missedCallsTrend" class="trend"></div>
-</div>
-
-<div class="card">
-    <div class="label">Answer Rate</div>
-    <div id="answerRate" class="value">-</div>
-</div>
-
-<div class="card">
-    <div class="label">Warm Transfers</div>
-    <div id="warmTransfers" class="value">-</div>
-    <div id="warmTransfersTrend" class="trend"></div>
-</div>
-
-<div class="card">
-    <div class="label">Cold Transfers</div>
-    <div id="coldTransfers" class="value">-</div>
-    <div id="coldTransfersTrend" class="trend"></div>
-</div>
-
-<div class="card">
-    <div class="label">Avg Duration</div>
-    <div id="averageDuration" class="value">-</div>
-    <div id="averageDurationTrend" class="trend"></div>
-</div>
-
-</div>
-
-<div id="status">
-Loading...
-</div>
-
-<script>
-
-let data = [];
-
-async function start() {
-
-    try {
-
-        const response =
-            await fetch('/data/monthlyData.json');
-
-        data =
-            await response.json();
-
-        buildDropdown();
-
-        showMonth(
-            data[data.length - 1],
-            data.length - 1
-        );
-
-        document.getElementById(
-            "status"
-        ).innerText =
-        "Loaded " +
-        data.length +
-        " months";
-
-    }
-
-    catch(error){
-
-        document.getElementById(
-            "status"
-        ).innerText =
-        error.toString();
-
-        console.error(error);
-
-    }
-
-}
-
-function buildDropdown(){
-
-    const selector =
-        document.getElementById(
-            "monthSelector"
-        );
-
-    selector.innerHTML = "";
-
-    data.forEach(
-        (item,index)=>{
-
-            const option =
-                document.createElement
