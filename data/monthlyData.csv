@@ -1,4 +1,29 @@
-Month,Year,TotalCalls,AnsweredCalls,MissedCalls
-July,2026,2400,2350,50
-August,2026,2540,2480,60
-September,2026,2620,2580,40
+[
+  {
+    "month": "July 2026",
+    "totalCalls": 2400,
+    "answeredCalls": 2350,
+    "missedCalls": 50,
+    "warmTransfers": 85,
+    "coldTransfers": 22,
+    "averageCallDuration": 14.3
+  },
+  {
+    "month": "August 2026",
+    "totalCalls": 2540,
+    "answeredCalls": 2480,
+    "missedCalls": 60,
+    "warmTransfers": 92,
+    "coldTransfers": 30,
+    "averageCallDuration": 15.1
+  },
+  {
+    "month": "September 2026",
+    "totalCalls": 2620,
+    "answeredCalls": 2580,
+    "missedCalls": 40,
+    "warmTransfers": 88,
+    "coldTransfers": 28,
+    "averageCallDuration": 13.9
+  }
+]
