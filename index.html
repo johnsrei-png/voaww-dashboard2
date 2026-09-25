@@ -25,10 +25,18 @@ body{
     font-weight:bold;
 }
 
-.dashboard-link{
-    display:inline-block;
-    margin-bottom:20px;
-    font-size:16px;
+#status{
+    margin-top:20px;
+    color:#666;
+}
+
+#preview{
+    margin-top:20px;
+    white-space:pre-wrap;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
 }
 
 </style>
@@ -39,153 +47,97 @@ body{
 
 <h1>VOAWW Dashboard V2</h1>
 
-<p>
-    <a
-        class="dashboard-link"
-        href="demographics.html">
-        Open Demographics Dashboard →
-    </a>
-</p>
+<h2>Upload Monthly CSV Report</h2>
 
-<select id="monthSelector"></select>
+<input
+    type="file"
+    id="csvFile"
+    accept=".csv">
 
-<div class="card">
-    <h3>Total Calls</h3>
-    <div id="totalCalls" class="value"></div>
+<div id="status">
+No file loaded
 </div>
 
-<div class="card">
-    <h3>Answered Calls</h3>
-    <div id="answeredCalls" class="value"></div>
+<div id="preview">
+Upload a CSV file to begin.
 </div>
-
-<div class="card">
-    <h3>Missed Calls</h3>
-    <div id="missedCalls" class="value"></div>
-</div>
-
-<div class="card">
-    <h3>Warm Transfers</h3>
-    <div id="warmTransfers" class="value"></div>
-</div>
-
-<div class="card">
-    <h3>Cold Transfers</h3>
-    <div id="coldTransfers" class="value"></div>
-</div>
-
-<div class="card">
-    <h3>Average Call Duration</h3>
-    <div id="averageCallDuration" class="value"></div>
-</div>
-
-<div id="status"></div>
 
 <script>
 
-let monthlyData = [];
+document
+    .getElementById("csvFile")
+    .addEventListener(
+        "change",
+        loadCsv
+    );
 
-async function loadDashboard() {
+function loadCsv(event){
 
-    const response =
-        await fetch('/data/monthlyData.json');
+    const file =
+        event.target.files[0];
 
-    monthlyData =
-        await response.json();
+    if(!file){
+        return;
+    }
 
-    document.getElementById(
-        'status'
-    ).innerText =
-        'Loaded ' +
-        monthlyData.length +
-        ' months';
+    const reader =
+        new FileReader();
 
-    const selector =
-        document.getElementById(
-            'monthSelector'
-        );
+    reader.onload =
+        function(e){
 
-    selector.innerHTML = '';
+        const text =
+            e.target.result;
 
-    monthlyData.forEach((month,index)=>{
+        const rows =
+            text.split(/\r?\n/)
+                .filter(
+                    row => row.trim()
+                );
 
-        const option =
-            document.createElement(
-                'option'
-            );
+        if(rows.length === 0){
 
-        option.value = index;
+            document
+                .getElementById(
+                    "status"
+                )
+                .innerText =
+                "File appears empty";
 
-        option.text =
-            month.month;
-
-        selector.appendChild(
-            option
-        );
-
-    });
-
-    selector.value =
-        monthlyData.length - 1;
-
-    selector.addEventListener(
-        'change',
-        function(){
-
-            showMonth(
-                monthlyData[
-                    Number(
-                        this.value
-                    )
-                ]
-            );
-
+            return;
         }
-    );
 
-    showMonth(
-        monthlyData[
-            monthlyData.length - 1
-        ]
-    );
+        const headers =
+            rows[0]
+            .split(",");
 
-}
+        document
+            .getElementById(
+                "status"
+            )
+            .innerText =
+            "Loaded "
+            + rows.length +
+            " rows";
 
-function showMonth(month){
+        document
+            .getElementById(
+                "preview"
+            )
+            .innerText =
+            "HEADERS FOUND:\n\n" +
+            headers.join("\n");
 
-    document.getElementById(
-        'totalCalls'
-    ).innerText =
-        month.totalCalls;
+        console.log(
+            "HEADERS",
+            headers
+        );
 
-    document.getElementById(
-        'answeredCalls'
-    ).innerText =
-        month.answeredCalls;
+    };
 
-    document.getElementById(
-        'missedCalls'
-    ).innerText =
-        month.missedCalls;
-
-    document.getElementById(
-        'warmTransfers'
-    ).innerText =
-        month.warmTransfers;
-
-    document.getElementById(
-        'coldTransfers'
-    ).innerText =
-        month.coldTransfers;
-
-    document.getElementById(
-        'averageCallDuration'
-    ).innerText =
-        month.averageCallDuration;
+    reader.readAsText(file);
 
 }
-
-loadDashboard();
 
 </script>
 
