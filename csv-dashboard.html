@@ -1,83 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>CSV Reader Test</title>
+
+<title>VOAWW CSV Dashboard</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:40px;
+}
+
+select,
+input[type=file]{
+    padding:10px;
+    margin:10px 0;
+    font-size:16px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin:10px 0;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+.value{
+    font-size:32px;
+    font-weight:bold;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h1>CSV Reader Test</h1>
+<h1>VOAWW CSV Dashboard</h1>
 
 <input
     type="file"
     id="fileInput"
     accept=".csv">
 
+<br>
+
+<select id="skillSelector">
+    <option>Select Skill</option>
+</select>
+
+<div class="card">
+
+<h3>Selected Skill</h3>
+
+<div
+    id="skillCount"
+    class="value">
+-
+</div>
+
+</div>
+
 <div id="status">
 Waiting for file...
 </div>
 
-<pre id="output"></pre>
-
 <script>
 
+let allRows = [];
+
 document
-    .getElementById("fileInput")
-    .addEventListener(
-        "change",
-        function(event){
+.getElementById("fileInput")
+.addEventListener(
+    "change",
+    loadCSV
+);
 
-            const file =
-                event.target.files[0];
+document
+.getElementById("skillSelector")
+.addEventListener(
+    "change",
+    function(){
 
-            if(!file){
-                return;
-            }
+        countSkillRows(
+            this.value
+        );
 
-            const reader =
-                new FileReader();
+    }
+);
 
-            reader.onload =
-                function(e){
+function loadCSV(event){
 
-                    const text =
-                        e.target.result;
-
-                    const rows =
-                        text
-                        .split(/\r?\n/)
-                        .filter(
-                            row => row.trim()
-                        );
-
-                    document
-                        .getElementById(
-                            "status"
-                        )
-                        .innerText =
-                        "Rows found: "
-                        + rows.length;
-
-                    document
-                        .getElementById(
-                            "output"
-                        )
-                        .innerText =
-                        rows
-                            .slice(0,5)
-                            .join("\n");
-
-                };
-
-            reader.readAsText(
-                file
-            );
-
-        }
-    );
-
-</script>
-
-</body>
-</html>
+    const
