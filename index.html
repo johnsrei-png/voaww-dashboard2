@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VOAWW Dashboard V2</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 220px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+        }
+
+        .label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>VOAWW Dashboard V2</h1>
+
+<h3 id="month"></h3>
+
+<div class="card-container">
+
+    <div class="card">
+        <div class="label">Total Calls</div>
+        <div id="totalCalls" class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Answered Calls</div>
+        <div id="answeredCalls" class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Missed Calls</div>
+        <div id="missedCalls" class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Answer Rate</div>
+        <div id="answerRate" class="value">0%</div>
+    </div>
+
+</div>
+
+<script>
+
+const monthlyData = {
+    month: "August",
+    year: 2026,
+    totalCalls: 2540,
+    answeredCalls: 2480,
+    missedCalls: 60
+};
+
+document.getElementById("month").innerText =
+    `${monthlyData.month} ${monthlyData.year}`;
+
+document.getElementById("totalCalls").innerText =
+    monthlyData.totalCalls.toLocaleString();
+
+document.getElementById("answeredCalls").innerText =
+    monthlyData.answeredCalls.toLocaleString();
+
+document.getElementById("missedCalls").innerText =
+    monthlyData.missedCalls.toLocaleString();
+
+const answerRate =
+    ((monthlyData.answeredCalls /
+    monthlyData.totalCalls) * 100)
+    .toFixed(1);
+
+document.getElementById("answerRate").innerText =
+    answerRate + "%";
+
+</script>
+
+</body>
+</html>
