@@ -1,12 +1,31 @@
 [
   {
     "month": "September 2026",
+
+    "age1to12": 4,
+    "age13to17": 11,
     "age18to25": 45,
     "age26to29": 25,
     "age30to39": 38,
     "age40to49": 22,
+    "age50to59": 14,
+    "age60to65": 8,
+    "age66plus": 6,
+    "ageUnknown": 3,
+
     "male": 52,
     "female": 48,
-    "unknownGender": 5
+    "transgender": 4,
+    "genderUnknown": 2,
+
+    "white": 58,
+    "black": 14,
+    "americanIndian": 12,
+    "otherRace": 8,
+    "raceUnknown": 3,
+
+    "hispanic": 18,
+    "nonHispanic": 71,
+    "ethnicityUnknown": 6
   }
 ]
