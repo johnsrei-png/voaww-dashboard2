@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>VOAWW Dashboard V2</title>
 
 <style>
@@ -27,7 +23,7 @@ body{
 }
 
 .nav{
-    background:#ffffff;
+    background:white;
     border-bottom:1px solid #ddd;
     display:flex;
 }
@@ -40,10 +36,6 @@ body{
     font-size:16px;
 }
 
-.nav button:hover{
-    background:#f0f0f0;
-}
-
 .nav button.active{
     background:#0f4c81;
     color:white;
@@ -53,41 +45,30 @@ body{
     padding:30px;
 }
 
-select{
-    padding:10px;
-    margin-bottom:20px;
-    font-size:16px;
-}
-
-.cards{
-    display:flex;
-    flex-wrap:wrap;
-    gap:20px;
-}
-
 .card{
     background:white;
     padding:20px;
+    margin:10px 0;
     border-radius:10px;
-    min-width:220px;
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-
-.label{
-    color:#666;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
 }
 
 .value{
-    font-size:36px;
+    font-size:32px;
     font-weight:bold;
-    margin-top:10px;
 }
 
 .placeholder{
     background:white;
     padding:30px;
     border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+select{
+    padding:10px;
+    margin-bottom:20px;
+    font-size:16px;
 }
 
 #status{
@@ -140,120 +121,21 @@ Settings
 
 <select id="monthSelector"></select>
 
-<div class="cards">
-
 <div class="card">
-<div class="label">Total Calls</div>
-<div id="totalCalls" class="value">-</div>
+    <h3>Total Calls</h3>
+    <div id="totalCalls" class="value"></div>
 </div>
 
 <div class="card">
-<div class="label">Answered Calls</div>
-<div id="answeredCalls" class="value">-</div>
+    <h3>Answered Calls</h3>
+    <div id="answeredCalls" class="value"></div>
 </div>
 
 <div class="card">
-<div class="label">Missed Calls</div>
-<div id="missedCalls" class="value">-</div>
+    <h3>Missed Calls</h3>
+    <div id="missedCalls" class="value"></div>
 </div>
 
 <div class="card">
-<div class="label">Answer Rate</div>
-<div id="answerRate" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Warm Transfers</div>
-<div id="warmTransfers" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Cold Transfers</div>
-<div id="coldTransfers" class="value">-</div>
-</div>
-
-<div class="card">
-<div class="label">Average Duration</div>
-<div id="averageCallDuration" class="value">-</div>
-</div>
-
-</div>
-
-<div id="status">
-Loading...
-</div>
-
-</div>
-
-<div
-id="demoPage"
-style="display:none;">
-
-<div class="placeholder">
-
-<h2>Demographics Dashboard</h2>
-
-<p>
-Coming Soon
-</p>
-
-<p>
-Planned metrics:
-</p>
-
-<ul>
-<li>Age Groups</li>
-<li>Gender</li>
-<li>Race</li>
-<li>Ethnicity</li>
-<li>Monthly Trends</li>
-</ul>
-
-</div>
-
-</div>
-
-<div
-id="docPage"
-style="display:none;">
-
-<div class="placeholder">
-
-<h2>DOC Calls Dashboard</h2>
-
-<p>
-Coming Soon
-</p>
-
-<p>
-Planned metrics:
-</p>
-
-<ul>
-<li>Total DOC Calls</li>
-<li>Answered Calls</li>
-<li>Transfers</li>
-<li>Call Duration</li>
-<li>Monthly Trends</li>
-</ul>
-
-</div>
-
-</div>
-
-<div
-id="settingsPage"
-style="display:none;">
-
-<div class="placeholder">
-
-<h2>Settings</h2>
-
-<p>
-Future location for:
-</p>
-
-<ul>
-<li>Workbook management</li>
-<li>Data imports</li>
-<li>User 
+    <h3>Warm Transfers</h3>
+    <div id="warmTransfers" class="
