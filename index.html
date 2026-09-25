@@ -1,54 +1,35 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VOAWW Dashboard V2</title>
 
-<script src="https://net/npm/chart.jsscript>
-
 <style>
-
 body{
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
+    font-family: Arial, sans-serif;
     margin:40px;
+    background:#f5f5f5;
 }
 
 .card-container{
     display:flex;
     gap:20px;
     flex-wrap:wrap;
-    margin-bottom:30px;
 }
 
 .card{
     background:white;
     padding:20px;
-    min-width:220px;
     border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
+    min-width:220px;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
 }
 
 .value{
     font-size:36px;
     font-weight:bold;
 }
-
-.chart-box{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-
-select{
-    padding:8px;
-    margin-bottom:20px;
-}
-
 </style>
 
 </head>
@@ -62,162 +43,105 @@ select{
 <div class="card-container">
 
 <div class="card">
-<div>Total Calls</div>
-<div id="totalCalls" class="value">-</div>
+    <div>Total Calls</div>
+    <div id="totalCalls" class="value">-</div>
 </div>
 
 <div class="card">
-<div>Answered Calls</div>
-<div id="answeredCalls" class="value">-</div>
+    <div>Answered Calls</div>
+    <div id="answeredCalls" class="value">-</div>
 </div>
 
 <div class="card">
-<div>Missed Calls</div>
-<div id="missedCalls" class="value">-</div>
+    <div>Missed Calls</div>
+    <div id="missedCalls" class="value">-</div>
 </div>
 
 <div class="card">
-<div>Answer Rate</div>
-<div id="answerRate" class="value">-</div>
+    <div>Answer Rate</div>
+    <div id="answerRate" class="value">-</div>
 </div>
-
-</div>
-
-<div class="chart-box">
-
-<h2>Monthly Call Trend</h2>
-
-<canvas id="trendChart"></canvas>
 
 </div>
 
 <script>
 
 const dashboardData = [
-
-{
-month:"July 2026",
-totalCalls:2400,
-answeredCalls:2350,
-missedCalls:50
-},
-
-{
-month:"August 2026",
-totalCalls:2540,
-answeredCalls:2480,
-missedCalls:60
-},
-
-{
-month:"September 2026",
-totalCalls:2620,
-answeredCalls:2580,
-missedCalls:40
-}
-
+    {
+        month:"July 2026",
+        totalCalls:2400,
+        answeredCalls:2350,
+        missedCalls:50
+    },
+    {
+        month:"August 2026",
+        totalCalls:2540,
+        answeredCalls:2480,
+        missedCalls:60
+    },
+    {
+        month:"September 2026",
+        totalCalls:2620,
+        answeredCalls:2580,
+        missedCalls:40
+    }
 ];
 
 function render(record){
 
-document.getElementById("totalCalls").innerText =
-record.totalCalls.toLocaleString();
+    document.getElementById("totalCalls").innerText =
+        record.totalCalls.toLocaleString();
 
-document.getElementById("answeredCalls").innerText =
-record.answeredCalls.toLocaleString();
+    document.getElementById("answeredCalls").innerText =
+        record.answeredCalls.toLocaleString();
 
-document.getElementById("missedCalls").innerText =
-record.missedCalls.toLocaleString();
+    document.getElementById("missedCalls").innerText =
+        record.missedCalls.toLocaleString();
 
-const rate =
-(record.answeredCalls / record.totalCalls) * 100;
+    const rate =
+        (record.answeredCalls /
+        record.totalCalls) * 100;
 
-document.getElementById("answerRate").innerText =
-rate.toFixed(1) + "%";
-
+    document.getElementById("answerRate").innerText =
+        rate.toFixed(1) + "%";
 }
 
 const selector =
-document.getElementById("monthSelector");
+    document.getElementById("monthSelector");
 
 dashboardData.forEach((item,index)=>{
 
-const option =
-document.createElement("option");
+    const option =
+        document.createElement("option");
 
-option.value = index;
+    option.value = index;
+    option.text = item.month;
 
-option.text = item.month;
+    selector.appendChild(option);
 
-selector.appendChild(option);
+});
+
+selector.addEventListener("change", function(){
+
+    const record =
+        dashboardData[
+            Number(this.value)
+        ];
+
+    render(record);
 
 });
 
 selector.value =
-dashboardData.length - 1;
-
-selector.addEventListener("change",function(){
+    dashboardData.length - 1;
 
 render(
-dashboardData[
-Number(this.value)
-]
-);
-
-});
-
-render(
-dashboardData[
-dashboardData.length - 1
-]
-);
-
-new Chart(
-
-document.getElementById("trendChart"),
-
-{
-type:"line",
-
-data:{
-
-labels:
-dashboardData.map(
-x => x.month
-),
-
-datasets:[{
-
-label:"Total Calls",
-
-data:
-dashboardData.map(
-x => x.totalCalls
-),
-
-borderWidth:3
-
-}]
-},
-
-options:{
-
-responsive:true,
-
-plugins:{
-legend:{
-display:true
-}
-}
-
-}
-
-}
-
+    dashboardData[
+        dashboardData.length - 1
+    ]
 );
 
 </script>
 
 </body>
-
 </html>
