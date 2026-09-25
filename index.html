@@ -126,41 +126,55 @@ Monthly Reporting Dashboard
 
 let dashboardData = [];
 
-async function loadData(){
+async function loadData() {
 
-    const response =
-        await fetch('./data/monthlyData.csv');
+    try {
 
-    const csv =
-        await response.text();
+        const response =
+            await fetch('./data/monthlyData.csv');
 
-    const rows =
-        csv.trim().split('\n');
+        console.log("Fetch status:", response.status);
 
-    dashboardData =
-        rows.slice(1).map(row => {
+        const csv =
+            await response.text();
 
-            const cols =
-                row.split(',');
+        console.log("CSV Content:");
+        console.log(csv);
 
-            return {
+        const rows =
+            csv.trim().split('\n');
 
-                month: cols[0],
-                year: cols[1],
+        dashboardData =
+            rows.slice(1).map(row => {
 
-                totalCalls:
-                    Number(cols[2]),
+                const cols =
+                    row.split(',');
 
-                answeredCalls:
-                    Number(cols[3]),
+                return {
+                    month: cols[0],
+                    year: cols[1],
+                    totalCalls: Number(cols[2]),
+                    answeredCalls: Number(cols[3]),
+                    missedCalls: Number(cols[4])
+                };
 
-                missedCalls:
-                    Number(cols[4])
+            });
 
-            };
+        console.log(dashboardData);
 
-        });
+    }
 
+    catch(error) {
+
+        console.error(error);
+
+    }
+
+}
+
+loadData();
+
+</script>
     buildDropdown();
 
     drawChart(dashboardData);
