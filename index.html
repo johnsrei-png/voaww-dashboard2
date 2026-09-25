@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>VOAWW Dashboard V2</title>
 
 <style>
@@ -75,6 +76,11 @@ select{
     font-size:14px;
 }
 
+.status{
+    margin-top:20px;
+    color:#666;
+}
+
 </style>
 
 </head>
@@ -117,157 +123,44 @@ select{
 
 </div>
 
+<div id="status" class="status">
+Loading data...
+</div>
+
 <script>
 
-const dashboardData = [
+let dashboardData = [];
 
-{
-month:"July 2026",
-totalCalls:2400,
-answeredCalls:2350,
-missedCalls:50
-},
+async function loadData() {
 
-{
-month:"August 2026",
-totalCalls:2540,
-answeredCalls:2480,
-missedCalls:60
-},
+    try {
 
-{
-month:"September 2026",
-totalCalls:2620,
-answeredCalls:2580,
-missedCalls:40
-}
+        const response =
+            await fetch('./data/monthlyData.json');
 
-];
+        dashboardData =
+            await response.json();
 
-function render(record){
+        initializeDashboard();
 
-document.getElementById("totalCalls").innerText =
-record.totalCalls.toLocaleString();
+    }
 
-document.getElementById("answeredCalls").innerText =
-record.answeredCalls.toLocaleString();
+    catch(error) {
 
-document.getElementById("missedCalls").innerText =
-record.missedCalls.toLocaleString();
+        console.error(error);
 
-const rate =
-(record.answeredCalls /
-record.totalCalls) * 100;
+        document.getElementById("status")
+            .innerText =
+            "Failed to load monthlyData.json";
 
-document.getElementById("answerRate").innerText =
-rate.toFixed(1) + "%";
+    }
 
 }
 
-function buildDropdown(){
+function initializeDashboard(){
 
-const selector =
-document.getElementById("monthSelector");
+    buildDropdown();
 
-dashboardData.forEach((item,index)=>{
-
-const option =
-document.createElement("option");
-
-option.value = index;
-option.text = item.month;
-
-selector.appendChild(option);
-
-});
-
-selector.value =
-dashboardData.length - 1;
-
-selector.addEventListener(
-"change",
-function(){
-
-render(
-dashboardData[
-Number(this.value)
-]
-);
-
-}
-
-);
-
-}
-
-function drawChart(){
-
-const container =
-document.getElementById("chartArea");
-
-container.innerHTML = "";
-
-const max =
-Math.max(
-...dashboardData.map(
-d => d.totalCalls
-)
-);
-
-dashboardData.forEach(record => {
-
-const col =
-document.createElement("div");
-
-col.className =
-"bar-column";
-
-const bar =
-document.createElement("div");
-
-bar.className =
-"bar";
-
-bar.style.height =
-(record.totalCalls / max)
-* 180 + "px";
-
-const value =
-document.createElement("div");
-
-value.innerText =
-record.totalCalls.toLocaleString();
-
-const label =
-document.createElement("div");
-
-label.className =
-"bar-label";
-
-label.innerText =
-record.month.split(" ")[0];
-
-col.appendChild(value);
-col.appendChild(bar);
-col.appendChild(label);
-
-container.appendChild(col);
-
-});
-
-}
-
-buildDropdown();
-
-render(
-dashboardData[
-dashboardData.length - 1
-]
-);
-
-drawChart();
-
-</script>
-
-</body>
-</html>
+    render(
+        dashboardData[
+            dashboardData.length 
