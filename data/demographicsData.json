@@ -1,0 +1,12 @@
+[
+  {
+    "month": "September 2026",
+    "age18to25": 45,
+    "age26to29": 25,
+    "age30to39": 38,
+    "age40to49": 22,
+    "male": 52,
+    "female": 48,
+    "unknownGender": 5
+  }
+]
