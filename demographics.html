@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>VOAWW Demographics Dashboard</title>
 
 <style>
@@ -17,10 +13,20 @@ body{
 }
 
 h1{
-    margin-bottom:20px;
+    margin-bottom:10px;
 }
 
-.card-container{
+.back-link{
+    display:inline-block;
+    margin-bottom:20px;
+    font-size:16px;
+}
+
+.section{
+    margin-top:30px;
+}
+
+.grid{
     display:flex;
     flex-wrap:wrap;
     gap:20px;
@@ -29,33 +35,24 @@ h1{
 .card{
     background:white;
     padding:20px;
-    min-width:220px;
+    min-width:200px;
     border-radius:10px;
     box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
 .label{
     color:#666;
+    font-size:14px;
 }
 
 .value{
-    font-size:36px;
+    font-size:32px;
     font-weight:bold;
     margin-top:10px;
 }
 
-.section{
-    margin-top:30px;
-}
-
-.back-link{
-    display:inline-block;
-    margin-bottom:20px;
-    text-decoration:none;
-}
-
 #status{
-    margin-top:20px;
+    margin-top:25px;
     color:#666;
 }
 
@@ -65,36 +62,68 @@ h1{
 
 <body>
 
-<a class="back-link" href="index.html">
-← Monthly Dashboard
+<a href="index.html" class="back-link">
+← Return to Monthly Dashboard
 </a>
 
 <h1>Demographics Dashboard</h1>
+
+<div id="month"></div>
 
 <div class="section">
 
 <h2>Age Groups</h2>
 
-<div class="card-container">
+<div class="grid">
+
+<div class="card">
+<div class="label">1-12</div>
+<div id="age1to12" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">13-17</div>
+<div id="age13to17" class="value"></div>
+</div>
 
 <div class="card">
 <div class="label">18-25</div>
-<div id="age18to25" class="value">-</div>
+<div id="age18to25" class="value"></div>
 </div>
 
 <div class="card">
 <div class="label">26-29</div>
-<div id="age26to29" class="value">-</div>
+<div id="age26to29" class="value"></div>
 </div>
 
 <div class="card">
 <div class="label">30-39</div>
-<div id="age30to39" class="value">-</div>
+<div id="age30to39" class="value"></div>
 </div>
 
 <div class="card">
 <div class="label">40-49</div>
-<div id="age40to49" class="value">-</div>
+<div id="age40to49" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">50-59</div>
+<div id="age50to59" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">60-65</div>
+<div id="age60to65" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">66+</div>
+<div id="age66plus" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Unknown</div>
+<div id="ageUnknown" class="value"></div>
 </div>
 
 </div>
@@ -105,21 +134,86 @@ h1{
 
 <h2>Gender</h2>
 
-<div class="card-container">
+<div class="grid">
 
 <div class="card">
 <div class="label">Male</div>
-<div id="male" class="value">-</div>
+<div id="male" class="value"></div>
 </div>
 
 <div class="card">
 <div class="label">Female</div>
-<div id="female" class="value">-</div>
+<div id="female" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Transgender</div>
+<div id="transgender" class="value"></div>
 </div>
 
 <div class="card">
 <div class="label">Unknown</div>
-<div id="unknownGender" class="value">-</div>
+<div id="genderUnknown" class="value"></div>
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Race</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="label">White</div>
+<div id="white" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Black</div>
+<div id="black" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">American Indian</div>
+<div id="americanIndian" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Other</div>
+<div id="otherRace" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Unknown</div>
+<div id="raceUnknown" class="value"></div>
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Ethnicity</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="label">Hispanic</div>
+<div id="hispanic" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Non-Hispanic</div>
+<div id="nonHispanic" class="value"></div>
+</div>
+
+<div class="card">
+<div class="label">Unknown</div>
+<div id="ethnicityUnknown" class="value"></div>
 </div>
 
 </div>
@@ -141,46 +235,28 @@ async function loadData(){
                 '/data/demographicsData.json'
             );
 
-        const data =
+        const records =
             await response.json();
 
-        const demo =
-            data[0];
+        const d = records[0];
 
-        document.getElementById(
-            'age18to25'
-        ).innerText =
-        demo.age18to25;
+        document.getElementById('month')
+            .innerText =
+            d.month;
 
-        document.getElementById(
-            'age26to29'
-        ).innerText =
-        demo.age26to29;
+        Object.keys(d).forEach(key => {
 
-        document.getElementById(
-            'age30to39'
-        ).innerText =
-        demo.age30to39;
+            const element =
+                document.getElementById(key);
 
-        document.getElementById(
-            'age40to49'
-        ).innerText =
-        demo.age40to49;
+            if(element){
 
-        document.getElementById(
-            'male'
-        ).innerText =
-        demo.male;
+                element.innerText =
+                    d[key];
 
-        document.getElementById(
-            'female'
-        ).innerText =
-        demo.female;
+            }
 
-        document.getElementById(
-            'unknownGender'
-        ).innerText =
-        demo.unknownGender;
+        });
 
         document.getElementById(
             'status'
@@ -205,5 +281,4 @@ loadData();
 </script>
 
 </body>
-
 </html>
