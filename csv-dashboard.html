@@ -2,34 +2,95 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Skill Detection Test</title>
+<title>VOAWW CSV Dashboard</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    margin:40px;
+    background:#f5f5f5;
+}
+
+select,
+input{
+    padding:10px;
+    margin:10px 0;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-top:20px;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+.value{
+    font-size:36px;
+    font-weight:bold;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h1>Skill Detection Test</h1>
+<h1>VOAWW CSV Dashboard</h1>
 
 <input
     type="file"
     id="fileInput"
     accept=".csv">
 
+<br>
+
+<select id="skillSelector">
+    <option>Upload CSV First</option>
+</select>
+
+<div class="card">
+
+<h3>Calls For Selected Skill</h3>
+
+<div
+    id="rowCount"
+    class="value">
+-
+</div>
+
+</div>
+
 <div id="status">
 Waiting for file...
 </div>
 
-<pre id="output"></pre>
-
 <script>
+
+let allRows = [];
 
 document
 .getElementById("fileInput")
 .addEventListener(
     "change",
-    loadCSV
+    loadCsv
 );
 
-function loadCSV(event){
+document
+.getElementById("skillSelector")
+.addEventListener(
+    "change",
+    function(){
+
+        countRows(
+            this.value
+        );
+
+    }
+);
+
+function loadCsv(event){
 
     const file =
         event.target.files[0];
@@ -47,48 +108,126 @@ function loadCSV(event){
             const text =
                 e.target.result;
 
-            const rows =
+            const lines =
                 text
                 .split(/\r?\n/)
                 .filter(
-                    row => row.trim()
+                    line =>
+                    line.trim()
                 );
 
-            const headers =
-                rows[0]
-                .split(",");
+            allRows =
+                lines.slice(1);
 
-            const cleanedHeaders =
-                headers.map(
-                    h =>
-                    h.replace(/^\uFEFF/, "")
-                     .trim()
-                );
-
-            document
-                .getElementById(
-                    "output"
-                )
-                .innerText =
-                cleanedHeaders.join("\n");
-
-            const skillIndex =
-                cleanedHeaders.findIndex(
-                    h =>
-                    h === "Skill Name"
-                );
-
-            document
-                .getElementById(
-                    "status"
-                )
-                .innerText =
-                "Skill Name column index: "
-                + skillIndex;
+            buildSkills();
 
         };
 
     reader.readAsText(file);
+
+}
+
+function buildSkills(){
+
+    const skills =
+        new Set();
+
+    allRows.forEach(line => {
+
+        const firstComma =
+            line.indexOf(",");
+
+        if(firstComma > -1){
+
+            const skill =
+                line
+                .substring(
+                    0,
+                    firstComma
+                )
+                .trim();
+
+            if(skill){
+
+                skills.add(
+                    skill
+                );
+
+            }
+
+        }
+
+    });
+
+    const selector =
+        document.getElementById(
+            "skillSelector"
+        );
+
+    selector.innerHTML = "";
+
+    [...skills]
+        .sort()
+        .forEach(skill => {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            skill;
+
+        option.text =
+            skill;
+
+        selector.appendChild(
+            option
+        );
+
+    });
+
+    document
+        .getElementById(
+            "status"
+        )
+        .innerText =
+        "Skills detected: "
+        + skills.size;
+
+    if(skills.size > 0){
+
+        const firstSkill =
+            [...skills][0];
+
+        selector.value =
+            firstSkill;
+
+        countRows(
+            firstSkill
+        );
+
+    }
+
+}
+
+function countRows(skill){
+
+    const count =
+        allRows.filter(
+            row =>
+            row.startsWith(
+                skill + ","
+            )
+        ).length;
+
+    document
+        .getElementById(
+            "rowCount"
+        )
+        .innerText =
+        count
+        .toLocaleString();
 
 }
 
