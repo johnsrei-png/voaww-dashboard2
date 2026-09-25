@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CSV Upload Test</title>
+<title>CSV Reader Test</title>
 </head>
 
 <body>
 
-<h1>CSV Upload Test</h1>
+<h1>CSV Reader Test</h1>
 
 <input
     type="file"
@@ -18,6 +18,8 @@
 Waiting for file...
 </div>
 
+<pre id="output"></pre>
+
 <script>
 
 document
@@ -26,31 +28,51 @@ document
         "change",
         function(event){
 
-            document
-                .getElementById(
-                    "status"
-                )
-                .innerText =
-                "FILE SELECTED";
-
-            console.log(
-                "File Selected"
-            );
-
             const file =
                 event.target.files[0];
 
-            if(file){
-
-                document
-                    .getElementById(
-                        "status"
-                    )
-                    .innerText =
-                    "Selected: "
-                    + file.name;
-
+            if(!file){
+                return;
             }
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function(e){
+
+                    const text =
+                        e.target.result;
+
+                    const rows =
+                        text
+                        .split(/\r?\n/)
+                        .filter(
+                            row => row.trim()
+                        );
+
+                    document
+                        .getElementById(
+                            "status"
+                        )
+                        .innerText =
+                        "Rows found: "
+                        + rows.length;
+
+                    document
+                        .getElementById(
+                            "output"
+                        )
+                        .innerText =
+                        rows
+                            .slice(0,5)
+                            .join("\n");
+
+                };
+
+            reader.readAsText(
+                file
+            );
 
         }
     );
