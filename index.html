@@ -77,11 +77,63 @@
 <script>
 
 const monthlyData = {
-    month: "August",
-    year: 2026,
-    totalCalls: 2540,
-    answeredCalls: 2480,
-    missedCalls: 60
+    async function loadData() {
+
+    const response =
+        await fetch('./data/monthlyData.csv');
+
+    const csv =
+        await response.text();
+
+    const rows =
+        csv.trim().split('\n');
+
+    const data =
+        rows.slice(1).map(row => {
+
+            const cols =
+                row.split(',');
+
+            return {
+                month: cols[0],
+                year: cols[1],
+                totalCalls: Number(cols[2]),
+                answeredCalls: Number(cols[3]),
+                missedCalls: Number(cols[4])
+            };
+        });
+
+    const latest =
+        data[data.length - 1];
+
+    render(latest);
+}
+
+function render(monthlyData) {
+
+    document.getElementById("month").innerText =
+        `${monthlyData.month} ${monthlyData.year}`;
+
+    document.getElementById("totalCalls").innerText =
+        monthlyData.totalCalls.toLocaleString();
+
+    document.getElementById("answeredCalls").innerText =
+        monthlyData.answeredCalls.toLocaleString();
+
+    document.getElementById("missedCalls").innerText =
+        monthlyData.missedCalls.toLocaleString();
+
+    const answerRate =
+        ((monthlyData.answeredCalls /
+        monthlyData.totalCalls) * 100)
+        .toFixed(1);
+
+    document.getElementById("answerRate").innerText =
+        answerRate + "%";
+}
+
+loadData();
+``
 };
 
 document.getElementById("month").innerText =
