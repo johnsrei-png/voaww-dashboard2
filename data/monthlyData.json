@@ -1,0 +1,20 @@
+[
+  {
+    "month": "July 2026",
+    "totalCalls": 2400,
+    "answeredCalls": 2350,
+    "missedCalls": 50
+  },
+  {
+    "month": "August 2026",
+    "totalCalls": 2540,
+    "answeredCalls": 2480,
+    "missedCalls": 60
+  },
+  {
+    "month": "September 2026",
+    "totalCalls": 2620,
+    "answeredCalls": 2580,
+    "missedCalls": 40
+  }
+]
